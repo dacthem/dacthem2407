@@ -1,0 +1,118 @@
+﻿@model ProductViewModel
+<table class="table table-bordered my-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Hinh Anh</th>
+            <th>Ten San Pham</th>
+            <th>Mo Ta San Pham</th>
+            <th>Gia</th>
+            <th>Thoi Gian Tao</th>
+            <th>Ten Danh Muc</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pro
+        in @Model.Products)
+        {
+            <tr>
+                <td>@pro.Id</td>
+                <td><img src="@pro.AvatarUrl" style="width:80px"/></td>
+                <td>@pro.Name</td>
+                <td>@pro.Description</td>
+                <td>@pro.Price</td>
+                <td>@pro.DateCreated</td>
+                <td>@pro.CategoryName</td>
+                <td>
+                    @*<a class="btn btn-info" asp-controller="proegory" asp-action="Edit" asp-route-id="@pro.Id">Sua</a>*@
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#ModalEdit_@pro.Id">
+                        Sửa
+                    </button>
+                    <div class="modal fade" id="ModalEdit_@pro.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-controller="Product" asp-action="Update" enctype="multipart/form-data">
+
+
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" id="id" name="ProductRequest.Id" value="@pro.Id" />
+                                        <div>
+                                            <label class="form-label" for="name">Ten San Pham</label>
+                                            <input class="form-control" type="text" id="name" asp-for="ProductRequest.Name" value="@pro.Name" required />
+                                        </div>
+                                        <div>
+                                            <label class="form-label" for="description">Mo ta San Pham</label>
+                                            <textarea style="width:100%" class="form-control" type="text" id="description" name="ProductRequest.Description">@pro.Description</textarea>
+                                        </div>
+                                        <div>
+                                            <label class="form-label" for="datecreated">Thoi Gian Tao</label>
+                                            <input class="form-control" type="text" id="price" asp-for="ProductRequest.DateCreated" value="@pro.DateCreated" disabled />
+                                        </div>
+                                        <div>
+                                            <label class="form-label" for="price">Gia San Pham</label>
+                                            <input class="form-control" type="number" id="price" asp-for="ProductRequest.Price" value="@pro.Price" required />
+                                        </div>
+                                        <div>
+                                            <label class="form-label" for="avatar">Avatar</label>
+                                            <input type="file" accept="image/*" asp-for="ProductRequest.Avatar"/>
+                                        </div>
+                                        <div>
+                                            <label class="form-label" for="categoryid">Danh Muc</label>
+                                            <select class="select-category js-states form-control" asp-for="ProductRequest.CategoryId">
+                                                @foreach (var cat in @Model.Responses)
+                                                {
+                                                    if(pro.CategoryId == cat.Id)
+                                                    {
+                                                        <option value="@cat.Id" selected >@cat.Name</option>
+                                                    } else {
+                                                    <option value="@cat.Id">@cat.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Lưu</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    @*<a class="btn btn-danger" asp-controller="proegory" asp-action="Delete" asp-route-id="@pro.Id">Xoa</a>*@
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalDel_@pro.Id">
+                        Xóa
+                    </button>
+                    <div class="modal fade" id="ModalDel_@pro.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h3>  Bạn có chắc chắn muốn xóa @pro.Name ?</h3>
+                                </div>
+                                <div class="modal-footer">
+                                    <form asp-action="Delete" asp-controller="Product" method="post">
+                                        <input type="hidden" value="@pro.Id" name="ProductRequest.Id" />
+                                        <button type="submit" class="btn btn-success">Đồng ý</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,64 @@
+﻿@model ProductViewModel
+
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalAdd">
+    Thêm
+</button>
+<div class="mb-5">
+<div class="form-group col-6 col-small-6">
+    <select id="listcate" class="form-control">
+        @foreach (var cate in Model.Responses){
+            <option value="@cate.Id">@cate.Name</option>
+        }
+        
+    </select>
+    </div>
+</div>
+<div id="result">
+<partial name="_ListProduct"></partial>
+</div>
+<div class="modal fade" id="ModalAdd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="Create" enctype="multipart/form-data">
+
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <label class="form-label" for="name">Ten San Pham</label>
+                        <input class="form-control" type="text" id="name" name="ProductRequest.Name" required />
+                    </div>
+                    <div>
+                        <label class="form-label" for="description">Mo ta San Pham</label>
+                        <textarea style="width:100%" class="form-control" type="text" id="description" name="ProductRequest.Description"></textarea>
+                    </div>
+                    <div>
+                        <label class="form-label" for="price">Gia San Pham</label>
+                        <input class="form-control" type="number" id="price" name="ProductRequest.Price" required />
+                    </div>
+                    <div>
+                         <label class="form-label" for="avatar">Avatar</label>
+                         <input type="file" accept="image/*" asp-for="ProductRequest.Avatar"/>
+                    </div>
+                    <div>
+                        <label class="form-label" for="categoryid">Danh Muc</label>
+                        <select class="select-category form-control" name="ProductRequest.CategoryId">
+                             @foreach(var cat in @Model.Responses){
+                             <option value="@cat.Id">@cat.Name</option>
+                             }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Tạo mới</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

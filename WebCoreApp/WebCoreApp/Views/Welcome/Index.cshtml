@@ -1,0 +1,14 @@
+﻿@model ProductViewModel
+
+<div class="row">
+	@foreach (var pro in Model.Products)
+	{
+	<div class="item col-2">
+		<div class="item-tile" >
+			<img src="@pro.AvatarUrl" class="item-img" style="" />
+			<h6 class="item-name" style="">@pro.Name</h6>
+			<h5 class="item-price">@pro.Price</h5>
+		</div>
+	</div>
+	}
+</div>

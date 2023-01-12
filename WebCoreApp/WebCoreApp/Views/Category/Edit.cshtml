@@ -1,0 +1,21 @@
+﻿@model CategoryViewModel
+<h1>Sua thong tin san pham</h1>
+<p class="text-danger">
+	@{
+		var message = ViewBag.Message;
+	}
+	@message
+</p>
+<div>
+	<form method="post" asp-action="Edit">
+		<div>
+			<input type="hidden" id="id" name="CategoryResponse.Id" value="@Model.CategoryResponse.Id" />
+			<label class="form-label" for="name">Ten Danh Muc</label>
+			<input class="form-control" type="text" id="name" name="CategoryResponse.Name" value="@Model.CategoryResponse.Name" required />
+		</div>
+		<div>
+			<button class="btn btn-primary" type="submit">Cap nhat</button>
+			<a class="btn btn-secondary" asp-action="Index">Quay lai</a>
+		</div>
+	</form>
+</div>

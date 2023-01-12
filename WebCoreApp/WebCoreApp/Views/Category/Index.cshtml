@@ -1,0 +1,112 @@
+﻿@model CategoryViewModel
+@{
+    if (ViewBag.Message != null)
+    {
+        <div>
+            @ViewBag.Message
+        </div>
+    }
+}
+@*<a class="btn btn-primary" asp-area="" asp-controller="Category" asp-action="Create">Add</a>*@
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalAdd">
+    Thêm
+</button>
+<div class="modal fade" id="ModalAdd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="Create">
+
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label class="form-label" for="name">Tên Danh Mục</label>
+                    <input class="form-control" type="text" id="name" name="CategoryResponse.Name"  required />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Tạo mới</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<table class="table table-bordered my-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ten Phan Loai</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var cat 
+        in @Model.Responses)
+		{
+        <tr>
+            <td>@cat.Id</td>
+            <td>@cat.Name</td>
+            <td>
+               @*<a class="btn btn-info" asp-controller="Category" asp-action="Edit" asp-route-id="@cat.Id">Sua</a>*@
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#ModalEdit_@cat.Id">
+                        Sửa
+                    </button>
+                    <div class="modal fade" id="ModalEdit_@cat.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-action="Edit">
+                                
+
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" id="id" name="CategoryResponse.Id" value="@cat.Id" />
+                                    <label class="form-label" for="name">Ten Danh Muc</label>
+                                    <input class="form-control" type="text" id="name" name="CategoryResponse.Name" value="@cat.Name" required />
+
+                                </div>
+                                <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Lưu</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+               @*<a class="btn btn-danger" asp-controller="Category" asp-action="Delete" asp-route-id="@cat.Id">Xoa</a>*@
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalDel_@cat.Id">
+                        Xóa
+                    </button>
+                    <div class="modal fade" id="ModalDel_@cat.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                
+                                
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <h3>  Bạn có chắc chắn muốn xóa @cat.Name ?</h3>
+                                </div>
+                                <div class="modal-footer">
+                                    <form asp-action="Delete" method="post">
+                                        <input type="hidden" value="@cat.Id" name="CategoryResponse.Id" />
+                                        <button type="submit" class="btn btn-success">Đồng ý</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </form>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+            </td>
+        </tr>
+		}
+    </tbody>
+</table>
